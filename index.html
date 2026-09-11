@@ -12,23 +12,26 @@
     var gameInstance = UnityLoader.instantiate("gameContainer", "Build/WebGL.json", {onProgress: UnityProgress});
   </script>
   
-  <!-- This updated CSS block forcefully overrides the template's style.css -->
+    <!-- This CSS block perfectly centers the game window at a 0.5 anchor point -->
   <style>
     html, body {
       margin: 0 !important;
       padding: 0 !important;
       width: 100% !important;
       height: 100% !important;
-      overflow: hidden !important; /* Hides the white borders and scrollbars */
-      background-color: #000 !important;
+      overflow: hidden !important; 
+      background-color: #000 !important; /* Changes the outer white space to clean black */
     }
     .webgl-content {
+      position: absolute !important;
+      top: 50% !important;   /* Move the top edge to the middle of the screen */
+      left: 50% !important;  /* Move the left edge to the middle of the screen */
+      transform: translate(-50%, -50%) !important; /* Shift back by 50% of the canvas size to center it */
       width: 100% !important;
       height: 100% !important;
-      position: absolute !important;
-      top: 0 !important;
-      left: 0 !important;
-      transform: none !important; /* Prevents Unity from centering the box mid-screen */
+      display: flex !important;
+      justify-content: center !important;
+      align-items: center !important;
     }
     #gameContainer {
       width: 100% !important;
