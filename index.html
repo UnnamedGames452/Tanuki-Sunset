@@ -3,23 +3,38 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Unity WebGL Player | Tanuki Sunset</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Tanuki Sunset</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
     <script src="TemplateData/UnityProgress.js"></script>
     <script src="Build/UnityLoader.js"></script>
     <script>
-      var gameInstance = UnityLoader.instantiate("gameContainer", "Build/WebGL.json", {onProgress: UnityProgress});
+      var gameInstance;
+
+      function requestFullscreen() {
+        var element = document.documentElement;
+        var request = element.requestFullscreen ||
+          element.webkitRequestFullscreen ||
+          element.msRequestFullscreen;
+
+        if (request && !document.fullscreenElement && !document.webkitFullscreenElement) {
+          request.call(element).catch(function () {});
+        }
+      }
+
+      window.addEventListener("load", function () {
+        gameInstance = UnityLoader.instantiate("gameContainer", "Build/WebGL.json", {
+          onProgress: UnityProgress
+        });
+
+        // Browsers require a user gesture before allowing fullscreen.
+        document.addEventListener("pointerdown", requestFullscreen, { once: true });
+        document.addEventListener("keydown", requestFullscreen, { once: true });
+      });
     </script>
   </head>
   <body>
-    <div class="webgl-content">
-      <div id="gameContainer" style="width: 960px; height: 600px"></div>
-      <div class="footer">
-        <div class="webgl-logo"></div>
-        <div class="fullscreen" onclick="gameInstance.SetFullscreen(1)"></div>
-        <div class="title">Tanuki Sunset</div>
-      </div>
-    </div>
+    <main id="gameContainer" aria-label="Tanuki Sunset game"></main>
   </body>
 </html>
